@@ -1,0 +1,15 @@
+{
+  "name": "hackathon-sample-apps",
+  "version": "1.0.0",
+  "description": "Hackathon sample apps",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "tsc && node dist/onlinelearning/online-learning"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mxw-sdk-js": "^0.8.0"
+  }
+}
