@@ -1,32 +1,36 @@
 
 # Name
 
-# Description
-
-# Installation
+Online Learning Tutorial
 
 
+## Description
 
-Steps:
-===========
-npm init
-
-npm install mxw-sdk-js --save
-
-prepare index.ts
-
-prepare tsconfig.json
+This is simple online learning tutorial that's built using blockchain SDK from mxw-sdk-js. The tutorial is written in Typescript.
 
 
+## Installation
 
-Documentation:
-==================
-1. Run `npm install`
-2. create 2 empty folders under folder docs:
-   _static
-   _templates
-3. Run `make build`
-4. Run `docker run --rm -p 8080:80 mxw-sdk-js-doc` to start service
-5. Open URL http://localhost:8080/ to view doc
+Clone or download the project. In terminal, navigate to project path, run the following command:
+
+```
+npm install
+```
+
+To compile the project, use command:
+```
+tsc
+```
+
+Online Learning tutorial is organized into methods for individual function. To run the project, open file `/src/online-learninig.ts` for reference on list of methods available. It can be run with command:
+```
+node dist/onlinelearning/online-learning.js <method_name>
+```
+
+Third argument is the method to call, followed by the method’s parameter(s), if any. For example, below command shows how we can trigger `addCourse()` method using parameter `Art`:
+```
+node dist/onlinelearning/online-learning.js addCourse Art
+```
+
 
 

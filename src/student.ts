@@ -1,6 +1,6 @@
 'use strict';
 
-import { mxw } from '../index';
+import { mxw } from './index';
 
 export class Student {
 

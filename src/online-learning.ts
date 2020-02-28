@@ -1,7 +1,7 @@
 'use strict';
 
 import { Course } from "./course";
-import { mxw } from '../index';
+import { mxw } from './index';
 import { nodeProvider } from "./env";
 import { Student } from "./student";
 
@@ -33,8 +33,8 @@ export class OnlineLearning {
         this.course.approveCourse(courseSymbol, seatLimit);
     }
 
-    enrolStudentOnCourse(courseSymbol: string) {
-        let student: mxw.Wallet = this.student.getStudent("where frost endless true say luxury detect clever unusual rich fresh effort");
+    enrolStudentOnCourse(studentMnemonic: string, courseSymbol: string) {
+        let student: mxw.Wallet = this.student.getStudent(studentMnemonic);
         this.course.enrolStudentOnCourse(courseSymbol, 7, student);
     }
 
@@ -50,7 +50,7 @@ export class OnlineLearning {
                 this.approveCourse(process.argv[3], parseInt(process.argv[4]));
                 break;
             case "enrolStudentOnCourse":
-                this.enrolStudentOnCourse(process.argv[3]);
+                this.enrolStudentOnCourse(process.argv[3], process.argv[4]);
                 break;
             default:
                 console.log("Please enter module name, followed by its parameter(s), if any.");

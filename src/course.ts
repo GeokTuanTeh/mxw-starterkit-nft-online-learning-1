@@ -1,6 +1,6 @@
 'use strict';
 
-import { mxw, nonFungibleToken as token } from '../index';
+import { mxw, nonFungibleToken as token } from './index';
 import { bigNumberify } from 'mxw-sdk-js/dist/utils';
 import { nodeProvider } from "./env";
 import { NonFungibleToken, NonFungibleTokenActions } from 'mxw-sdk-js/dist/non-fungible-token';
