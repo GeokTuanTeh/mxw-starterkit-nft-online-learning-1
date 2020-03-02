@@ -33,9 +33,9 @@ export class OnlineLearning {
         this.course.approveCourse(courseSymbol, seatLimit);
     }
 
-    enrolStudentOnCourse(studentMnemonic: string, courseSymbol: string) {
+    enrolStudentToCourse(studentMnemonic: string, courseSymbol: string, enrolCount: number) {
         let student: mxw.Wallet = this.student.getStudent(studentMnemonic);
-        this.course.enrolStudentOnCourse(courseSymbol, 7, student);
+        this.course.enrolStudentToCourse(student, courseSymbol, enrolCount);
     }
 
     main() {
@@ -49,8 +49,8 @@ export class OnlineLearning {
             case "approveCourse":
                 this.approveCourse(process.argv[3], parseInt(process.argv[4]));
                 break;
-            case "enrolStudentOnCourse":
-                this.enrolStudentOnCourse(process.argv[3], process.argv[4]);
+            case "enrolStudentToCourse":
+                this.enrolStudentToCourse(process.argv[3], process.argv[4], parseInt(process.argv[5]));
                 break;
             default:
                 console.log("Please enter module name, followed by its parameter(s), if any.");

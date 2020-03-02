@@ -10,18 +10,26 @@ export class Student {
         this.providerConn = providerConn;
     }
 
+    /**
+     * Register new student
+     */
     registerNewStudent() {
-        //create wallet instance
+        // create wallet instance
         let student: mxw.Wallet = mxw.Wallet.createRandom();
 
         console.log("Wallet address:", student.address);
+        // sample output: mxw18mt86al0xpgh2qhvyeqgf8m96xpwz55sdfwc8n
         console.log("Wallet mnemonic:", student.mnemonic);
+        // sample output: unaware timber engage dust away host narrow market hurry wave inherit bracket
 
-        //connect to provider
+        // connect to provider
         student.connect(this.providerConn);
-        student.getKycAddress();
     }
 
+    /**
+     * QUery wallet from mnemonic
+     * @param mnemonic string
+     */
     getStudent(mnemonic: string): mxw.Wallet {
         let wallet: mxw.Wallet = mxw.Wallet.fromMnemonic(mnemonic);
 
