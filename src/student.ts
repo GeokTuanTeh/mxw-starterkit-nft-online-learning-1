@@ -5,7 +5,7 @@ import { mxw } from './index';
 export class Student {
 
     private providerConn: mxw.providers.Provider;
-    
+
     constructor(providerConn: mxw.providers.Provider) {
         this.providerConn = providerConn;
     }
@@ -23,19 +23,28 @@ export class Student {
         // sample output: unaware timber engage dust away host narrow market hurry wave inherit bracket
 
         // connect to provider
-        student.connect(this.providerConn);
+        student = student.connect(this.providerConn);
+
+        return student.getAccountNumber()
+            .then((accountNumber) => {
+                console.log("Wallet account number: " + accountNumber.toString());
+            }).then(() => {
+                return student.getBalance()
+                .then((balance) => {
+                    console.log("Wallet balance: " + balance.toString());
+                });
+            });
     }
 
     /**
-     * QUery wallet from mnemonic
+     * Query wallet from mnemonic
      * @param mnemonic string
      */
     getStudent(mnemonic: string): mxw.Wallet {
         let wallet: mxw.Wallet = mxw.Wallet.fromMnemonic(mnemonic);
 
         if (wallet) {
-            wallet.connect(this.providerConn);
-            return wallet;
+            return wallet.connect(this.providerConn);
         } else {
             throw Error("Student not found");
         }

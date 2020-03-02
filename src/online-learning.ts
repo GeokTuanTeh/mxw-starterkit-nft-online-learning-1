@@ -38,23 +38,34 @@ export class OnlineLearning {
         this.course.enrolStudentToCourse(student, courseSymbol, enrolCount);
     }
 
+    bulkMintItem() {
+        this.course.bulkMintItem();
+    }
+
     main() {
-        switch (process.argv[2]) {
-            case "registerNewStudent":
-                this.registerNewStudent();
-                break;
-            case "addCourse":
-                this.addCourse(process.argv[3]);
-                break;
-            case "approveCourse":
-                this.approveCourse(process.argv[3], parseInt(process.argv[4]));
-                break;
-            case "enrolStudentToCourse":
-                this.enrolStudentToCourse(process.argv[3], process.argv[4], parseInt(process.argv[5]));
-                break;
-            default:
-                console.log("Please enter module name, followed by its parameter(s), if any.");
+        try {
+            switch (process.argv[2]) {
+                case "registerNewStudent":
+                    this.registerNewStudent();
+                    break;
+                case "addCourse":
+                    this.addCourse(process.argv[3]);
+                    break;
+                case "approveCourse":
+                    this.approveCourse(process.argv[3], parseInt(process.argv[4]));
+                    break;
+                case "enrolStudentToCourse":
+                    this.enrolStudentToCourse(process.argv[3], process.argv[4], parseInt(process.argv[5]));
+                    break;
+                default:
+                    console.log("Please enter module name, followed by its parameter(s), if any.");
+            }
+        } catch(error) {
+            console.log(error);
+        } finally {
+            providerConn.removeAllListeners();
         }
+        
     }
 }
 
