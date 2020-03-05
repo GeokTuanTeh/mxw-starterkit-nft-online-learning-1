@@ -28,9 +28,9 @@ export class Course {
     constructor(providerConn: mxw.providers.Provider) {
         this.providerConn = providerConn;
 
-        provider = mxw.Wallet.fromMnemonic(nodeProvider.nonFungibleToken.provider).connect(providerConn);
-        issuer = mxw.Wallet.fromMnemonic(nodeProvider.nonFungibleToken.issuer).connect(this.providerConn);
-        middleware = mxw.Wallet.fromMnemonic(nodeProvider.nonFungibleToken.middleware).connect(providerConn);
+        provider = mxw.Wallet.fromMnemonic(nodeProvider.nonFungibleToken.provider).connect(providerConn);//mxw1dww3nwtpvfcq2h94rmlftwywy7skc48yaku27p
+        issuer = mxw.Wallet.fromMnemonic(nodeProvider.nonFungibleToken.issuer).connect(this.providerConn);//mxw1nj5xdz6ychva2mjr7dnzp36tsfzefphadq230m
+        middleware = mxw.Wallet.fromMnemonic(nodeProvider.nonFungibleToken.middleware).connect(providerConn);//mxw1qgwzdxf66tp5mjpkpfe593nvsst7qzfxzqq73d
     }
 
     /**
@@ -53,6 +53,8 @@ export class Course {
         // create NFT using above properties
         return token.NonFungibleToken.create(nonFungibleTokenProperties, issuer, defaultOverrides).then((token) => {
             console.log("Symbol:", nonFungibleTokenProperties.symbol);
+        }).catch(error => {
+            console.log(error);
         });
     }
 
@@ -92,20 +94,6 @@ export class Course {
             });
     }
 
-    /**
-     * Query course entry pass
-     * @param courseSymbol string
-     * @param id number
-     */
-    getCourseEntryPass(courseSymbol: string, id: number) {
-        let itemId = courseSymbol + "#" + id;
-        return NonFungibleTokenItem.fromSymbol(courseSymbol, itemId, issuer).then((theItem) => {
-            return theItem.getState().then((itemState) => {
-                console.log(itemState);
-            });
-        });
-    }
-    
     /**
      * Enrol student to a course
      * @param student mxw.Wallet
@@ -190,6 +178,77 @@ export class Course {
             .catch(error => { // handle error, if any
                 console.log("getNftItemState", error);
                 throw error;
+            });
+    }
+
+    /**
+     * Query course entry pass (NFT item)
+     * @param courseSymbol string
+     * @param id number
+     */
+    getCourseEntryPass(courseSymbol: string, id: number) {
+        let itemId = courseSymbol + "#" + id;
+        return NonFungibleTokenItem.fromSymbol(courseSymbol, itemId, issuer).then((theItem) => {
+            this.getNftItemState(theItem);
+        });
+    }
+
+    /**
+     * Mint NFT item in bulk, can only do one by one
+     */
+    async bulkMintItem() {
+        const courseSymbol: string = "Account6";
+
+        const minter = new NonFungibleToken(courseSymbol, issuer); // query NFT created before
+
+        let itemId;
+        let properties;
+        let itemProp = {} as token.NonFungibleTokenItem;
+
+        for (let i = 18; i < 20; i++) {
+            itemId = courseSymbol + '#' + i;
+            properties = "Course " + courseSymbol + " - Seat #" + i;
+            itemProp = {
+                symbol: courseSymbol, // value must be same with NFT symbol, the parent
+                itemID: itemId, // value must be unique for same NFT
+                properties: properties,
+                metadata: properties
+            } as token.NonFungibleTokenItem;
+            // mint item to issuer wallet, with item properties defined above
+            await minter.mint(issuer.address, itemProp)
+                .then((receipt) => {
+                    console.log("Mint item receipt:", JSON.stringify(receipt));
+                    return NonFungibleTokenItem.fromSymbol(courseSymbol, itemId, issuer);
+                }).then((nftItem) => {
+                    return this.getNftItemState(nftItem); // print out the NFT item state
+                })
+                .catch(error => { // handle error, if any
+                    console.log("mintItem", error);
+                    throw error;
+                });
+        }
+    }
+
+    /**
+     * Get course (NFT) info such as state, is frozen, is usable and is approved
+     * @param courseSymbol 
+     */
+    getCourseInfo(courseSymbol: string) {
+        let course = new NonFungibleToken(courseSymbol, issuer);
+        console.log("State for course", courseSymbol);
+
+        return course.getState()
+            .then((state) => {
+                console.log(" >> ", state);
+                console.log(" >> Course is approved?", course.isApproved);
+                console.log(" >> Course is frozen?", course.isFrozen);
+                if (course.isApproved) {
+                    console.log(" >> Course is usable?", course.isUsable);                    
+                } else {
+                    console.log(" >> Course is not ready for use");
+                }
+            }).catch(error => {
+                console.log(error);
             });
     }
 
