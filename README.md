@@ -9,6 +9,11 @@ Online Learning Tutorial
 This is simple online learning tutorial that's built using blockchain SDK from mxw-sdk-js. The tutorial is written in Typescript.
 
 
+## Pre-requisite
+
+Please clone or download Maxonrow locally before start with this starter kit https://github.com/maxonrow/maxonrow-go/tree/develop/docker. 
+
+
 ## Installation
 
 Clone or download the project. In terminal, navigate to project path, run the following command:
